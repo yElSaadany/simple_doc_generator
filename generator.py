@@ -5,39 +5,67 @@ def extract_docstring(file):
         lines =  doc.readlines()
     
     tmp = []
+    ret = {}
     new_docstring = False
+    in_docstring = False
     in_class = False
     for line in lines:
-        if("class" in line and not(in_class)):
+        if("class" in line and not(in_docstring)):
+            # The beginning of a class
             current = "class " + line[6:-2]
-            in_class = True
-        elif('"""' in line and not(new_docstring)):
-            tmp.append(line)
             new_docstring = True
-        elif('"""' in line and new_docstring):
+        elif("def" in line and not(in_docstring)):
+            # The beginning a of method/function
+            if(line[:4] == '    '): # Means it's a method, not a function
+                current = "method " + line[8:-2]
+            else:
+                current = "function " + line[4:-2] # It's a function
+        elif('"""' in line and not(in_docstring)):
+            # It's the start of the docstring
             tmp.append(line)
+            in_docstring = True
+        elif('"""' in line and in_docstring):
+            # It's the end of the docstring
+            tmp.append(line)
+            in_docstring = False
             new_docstring = False
-            in_class = False
             tmp = ''.join(tmp)
-            return {current: tmp}
-        elif(new_docstring):
+            ret.update({current: tmp})
+            tmp = []
+        elif(in_docstring):
             tmp.append(line)
         else:
             pass
+    
+    return ret
         
 
 def generate_markdown(docstring):
+    class_name = None
+    md = []
     for key, value in docstring.items():
-        md = []
-
-        md.append("# %s" % key)
         docstring = parse(value)
-        print(docstring.params[0].arg_name)
-        md.append("## Arguments")
+        # if function class name None
+        # Meta
+        ## If a class name is defined, then the key is a method
+        if class_name:
+            md.append("## %s" % key)
+        else:
+            md.append("# **%s**" % key)
+        md.append(docstring.short_description[3:] + "\n")
+        md.append(docstring.long_description)
+        md.append("### Arguments")
         for i in range(len(docstring.params)):
             tmp = "* %s (*%s*): %s" %(docstring.params[i].arg_name,
              docstring.params[i].type_name,
              docstring.params[i].description)
             
             md.append(tmp)
-        return md
+        if docstring.returns:
+            md.append("### Returns")
+            md.append(docstring.returns.description[:-5])
+        
+        if "class" in key:
+            class_name = key[6:-2]
+
+    return md
