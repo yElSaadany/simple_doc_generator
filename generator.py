@@ -69,3 +69,9 @@ def generate_markdown(docstring):
             class_name = key[6:-2]
 
     return md
+
+def create_file(markdown, file):
+    with open(file, 'w') as doc:
+        for line in markdown:
+            doc.write(line)
+            doc.write("\n")
