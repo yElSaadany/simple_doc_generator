@@ -1,5 +1,5 @@
 *.swp
 __pycache__/
 cleaner.py
-test.md
+*.md
 *.pyc
