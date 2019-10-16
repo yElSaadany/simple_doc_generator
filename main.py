@@ -1,6 +1,5 @@
 import generator as gen
 import sys, argparse
-import os
 from utils.arguments import init_args, check_files
 
 def main(args):
