@@ -1,12 +1,16 @@
 import generator as gen
-import sys, argparse
 from utils.arguments import init_args, check_files
+from extractor import extract_docstring_from_indexes
+
 
 def main(args):
     input_file = args.i
     output_file = args.o
-    res = gen.extract_docstring(input_file)
-    gen.create_file(gen.generate_markdown(res), output_file)
+    name = input("Name of your project: ")
+    docstrings = extract_docstring_from_indexes(input_file)
+    res = gen.generate_markdown(docstrings, name)
+    gen.create_doc_file(res, output_file)
+
 
 if __name__ == '__main__':
     args = init_args()
