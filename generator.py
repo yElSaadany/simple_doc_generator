@@ -1,77 +1,39 @@
 from docstring_parser import parse
+from markdown import Markdown, MarkdownSection
 
-def extract_docstring(file):
-    with open(file, 'r') as doc:
-        lines =  doc.readlines()
-    
-    tmp = []
-    ret = {}
-    new_docstring = False
-    in_docstring = False
-    in_class = False
-    for line in lines:
-        if("class" in line and not(in_docstring)):
-            # The beginning of a class
-            current = "class " + line[6:-2]
-            new_docstring = True
-        elif("def" in line and not(in_docstring)):
-            # The beginning a of method/function
-            if(line[:4] == '    '): # Means it's a method, not a function
-                current = "method " + line[8:-2]
-            else:
-                current = "function " + line[4:-2] # It's a function
-        elif('"""' in line and not(in_docstring)):
-            # It's the start of the docstring
-            tmp.append(line)
-            in_docstring = True
-        elif('"""' in line and in_docstring):
-            # It's the end of the docstring
-            tmp.append(line)
-            in_docstring = False
-            new_docstring = False
-            tmp = ''.join(tmp)
-            ret.update({current: tmp})
-            tmp = []
-        elif(in_docstring):
-            tmp.append(line)
-        else:
-            pass
-    
-    return ret
-        
 
-def generate_markdown(docstring):
-    class_name = None
-    md = []
-    for key, value in docstring.items():
-        docstring = parse(value)
-        # if function class name None
-        # Meta
-        ## If a class name is defined, then the key is a method
-        if class_name:
-            md.append("## %s" % key)
+def create_doc_file(markdown, name):
+    markdown.generate(name)
+
+
+def generate_markdown(docstrings, title):
+    sections = []
+    is_method = False
+    for signature, docstring in docstrings.items():
+        if "class" in signature:
+            is_method = False
+        section = MarkdownSection(signature, is_method)
+        docstring = parse(docstring)
+        section.add_line(docstring.short_description[3:])
+        section.add_line(str(docstring.long_description))
+        if is_method:
+            section.add_line("#### Arguments")
         else:
-            md.append("# **%s**" % key)
-        md.append(docstring.short_description[3:] + "\n")
-        md.append(docstring.long_description)
-        md.append("### Arguments")
-        for i in range(len(docstring.params)):
-            tmp = "* %s (*%s*): %s" %(docstring.params[i].arg_name,
-             docstring.params[i].type_name,
-             docstring.params[i].description)
-            
-            md.append(tmp)
+            section.add_line("### Arguments")
+        tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
+                                  arg.description)
+               for arg in docstring.params]
+        section.add_list(tmp)
+
+        if "class" in signature:
+            is_method = True
+
         if docstring.returns:
-            md.append("### Returns")
-            md.append(docstring.returns.description[:-5])
-        
-        if "class" in key:
-            class_name = key[6:-2]
+            section.add_line("### Returns")
+            section.add_line(docstring.returns.description[:-4])
 
-    return md
+        sections.append(section)
 
-def create_file(markdown, file):
-    with open(file, 'w') as doc:
-        for line in markdown:
-            doc.write(line)
-            doc.write("\n")
+    ret = Markdown(title)
+    ret.sections = sections
+    return ret
