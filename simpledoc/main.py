@@ -1,6 +1,6 @@
-import generator as gen
-from utils.arguments import init_args, check_files
-from extractor import extract_docstring_from_indexes
+import simpledoc.generator as gen
+from simpledoc.utils.arguments import init_args, check_files
+from simpledoc.extractor import extract_docstring_from_indexes
 
 
 def main():

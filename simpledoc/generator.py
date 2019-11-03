@@ -1,5 +1,5 @@
 from docstring_parser import parse
-from markdown import Markdown, MarkdownSection
+from simpledoc.markdown import Markdown, MarkdownSection
 
 
 def create_doc_file(markdown, name):
