@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
         name="SimpleDocGenerator",
-        version="0.1.0",
+        version="0.1.1",
         packages_dir={"package": "simpledoc"},
         author="Youssef El Saadany",
         author_email="youssef.saadany@gmail.com",

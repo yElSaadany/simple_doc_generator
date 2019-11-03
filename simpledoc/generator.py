@@ -63,7 +63,6 @@ def class_section(signature, docstring):
 def generate_markdown(docstrings, title):
     sections = []
     for signature, docstring in docstrings.items():
-        print("    " in signature)
         if "class" in signature:
             sections.append(class_section(signature, docstring))
         elif "    " in signature:
