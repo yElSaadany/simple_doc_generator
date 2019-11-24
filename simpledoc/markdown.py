@@ -48,7 +48,7 @@ class MarkdownSection():
         Returns:
             Nothing, inplace operation.
         """
-        self.content += line + '\n'
+        self.content += line + '\n\n'
 
     def add_list(self, items):
         """Adds a markdown list to the section.

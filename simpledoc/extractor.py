@@ -16,6 +16,7 @@ def get_signatures_indexes(file):
         elif '"""' in lines[i] and not is_signature(lines[i-1]):
             ret[signature] = (start, i)
 
+    print(ret)
     return ret
 
 
