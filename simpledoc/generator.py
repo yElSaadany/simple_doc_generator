@@ -3,10 +3,28 @@ from simpledoc.markdown import Markdown, MarkdownSection
 
 
 def create_doc_file(markdown, name):
+    """Creates a mardown file.
+
+    Args:
+        mardown (Markdown): Markdown object to be exported as a MD file
+        name (str): Name of the MD file (e.g. 'documentation.md')
+
+    Returns:
+        Nothing.
+    """
     markdown.generate(name)
 
 
 def function_section(signature, docstring):
+    """Returns a Markdown Section made for functions
+
+    Args:
+        signature (str): Function to be documented
+        docstring (str): Its docstring
+
+    Returns:
+        Markdown section.
+    """
     section = MarkdownSection(signature, False)
     docstring = parse(docstring)
     section.add_line(docstring.short_description[3:])
@@ -25,6 +43,7 @@ def function_section(signature, docstring):
 
 
 def method_section(signature, docstring):
+    """Same as function_section but for a method."""
     section = MarkdownSection(signature, True)
     docstring = parse(docstring)
     section.add_line(docstring.short_description[3:])
@@ -43,6 +62,7 @@ def method_section(signature, docstring):
 
 
 def class_section(signature, docstring):
+    """Same as function_section but for a class."""
     section = MarkdownSection(signature, False)
     docstring = parse(docstring)
     section.add_line(docstring.short_description[3:])
@@ -61,6 +81,15 @@ def class_section(signature, docstring):
 
 
 def generate_markdown(docstrings, title):
+    """Combines all the Markdown sections together to form a complete markdown.
+
+    Args:
+        docstrings (Dict): Returned by extractor.extract_doctring_from_indexes()
+        title (str): Title of the Markdown document
+
+    Returns:
+        A Markdown object.
+    """
     sections = []
     for signature, docstring in docstrings.items():
         if "class" in signature:

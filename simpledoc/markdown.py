@@ -1,5 +1,15 @@
 class Markdown():
     """Represents a markdown file
+
+    Attributes:
+        title (str): Title of the markdown document
+        content (str): Contains the entire markdown document except
+                       the title
+        sections (List): MarkdownSection objects.
+
+    Args:
+        title (str): Title of the markdown document
+
     """
     def __init__(self, title):
         self.title = "# " + title + '\n'
@@ -7,16 +17,20 @@ class Markdown():
         self.sections = []
 
     def add_content(self, text):
+        """Appends `text` to `content` string."""
         self.content += text
 
     def add_section(self, section):
+        """Appends a MarkdownSection object to `sections`."""
         self.sections.append(section)
 
     def process_sections(self):
+        """Exports all sections into the `content` string."""
         for section in self.sections:
             self.content += section.generate()
 
     def generate(self, name):
+        """Exports `title` and `content` to a markdown file."""
         self.process_sections()
         with open(name, 'w') as doc:
             doc.write(self.title)
