@@ -1,14 +1,18 @@
-def is_signature(str):
+"""Module used to extract the docstrings inside a Python file"""
+
+
+def is_signature(string):
     """Check weather or not the string is a class or function signature"""
-    if "class" in str or "def" in str:
-        return str
+    if "class" in string or "def" in string:
+        return string
     return False
 
 
 def get_signatures_indexes(file):
     """Reads a file and outputs the indexes of every signature.
-    
-    This function is used to get the first and last docstrings declarations for every class or method/function.
+
+    This function is used to get the first and last
+    docstrings declarations for every class or method/function.
 
     Note:
         Does not work with single-line docstring for now.

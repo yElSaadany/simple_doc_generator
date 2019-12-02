@@ -1,3 +1,4 @@
+"""Module in charge of creating the markdown file"""
 from docstring_parser import parse
 from simpledoc.markdown import Markdown, MarkdownSection
 
