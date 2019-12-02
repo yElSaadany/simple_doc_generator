@@ -27,6 +27,7 @@ def function_section(signature, docstring):
         Markdown section.
     """
     section = MarkdownSection(signature, False)
+    section.add_line("**Function**")
     docstring = parse(docstring)
     section.add_line(docstring.short_description[3:])
     section.add_line(str(docstring.long_description))
@@ -46,6 +47,7 @@ def function_section(signature, docstring):
 def method_section(signature, docstring):
     """Same as function_section but for a method."""
     section = MarkdownSection(signature, True)
+    section.add_line("**Method**")
     docstring = parse(docstring)
     section.add_line(docstring.short_description[3:])
     section.add_line(str(docstring.long_description))
@@ -65,6 +67,7 @@ def method_section(signature, docstring):
 def class_section(signature, docstring):
     """Same as function_section but for a class."""
     section = MarkdownSection(signature, False)
+    section.add_line("**Class**")
     docstring = parse(docstring)
     section.add_line(docstring.short_description[3:])
     section.add_line(str(docstring.long_description))
@@ -93,9 +96,23 @@ def generate_markdown(docstrings, title):
     """
     sections = []
     for signature, docstring in docstrings.items():
-        if "class" in signature:
+        splitted_signature = signature.split(' ')
+        method = False
+        if len(splitted_signature) >= 4:
+            if splitted_signature[4:] == ['', '', '', '']:
+                declaration = splitted_signature[4]
+                method = True
+                signature = ''.join(splitted_signature[:4])
+            else:
+                declaration = splitted_signature[0]
+                signature = ''.join(splitted_signature[1:])
+        else:
+            declaration = splitted_signature[0]
+            signature = ''.join(splitted_signature[1:])
+
+        if declaration == "class":
             sections.append(class_section(signature, docstring))
-        elif "    " in signature:
+        elif method:
             sections.append(method_section(signature, docstring))
         else:
             sections.append(function_section(signature, docstring))
