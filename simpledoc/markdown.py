@@ -8,8 +8,7 @@ class Markdown():
         sections (List): MarkdownSection objects.
 
     Args:
-        title (str): Title of the markdown document
-
+        title (str): Title of the markdown document.
     """
     def __init__(self, title):
         self.title = "# " + title + '\n'

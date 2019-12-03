@@ -70,7 +70,8 @@ def class_section(signature, docstring):
     section.add_line("**Class**")
     docstring = parse(docstring)
     section.add_line(docstring.short_description[3:])
-    section.add_line(str(docstring.long_description))
+    if docstring.long_description is not None:
+        section.add_line(str(docstring.long_description))
     section.add_line("### Arguments")
     tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
                               arg.description)
@@ -99,10 +100,10 @@ def generate_markdown(docstrings, title):
         splitted_signature = signature.split(' ')
         method = False
         if len(splitted_signature) >= 4:
-            if splitted_signature[4:] == ['', '', '', '']:
+            if splitted_signature[:4] == ['', '', '', '']:
                 declaration = splitted_signature[4]
                 method = True
-                signature = ''.join(splitted_signature[:4])
+                signature = ''.join(splitted_signature[5:])
             else:
                 declaration = splitted_signature[0]
                 signature = ''.join(splitted_signature[1:])
