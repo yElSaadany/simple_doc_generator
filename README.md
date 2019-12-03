@@ -13,3 +13,8 @@ generate-doc -i <input-file.py> -o <output-name.md>
 Name of your project: Project documentation
 Generated with success!
 ```
+
+# Todo
+* New way of extracting docstrings, broken now
+* Validating docstring style (google/rest)
+* Better markdown API
