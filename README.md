@@ -15,6 +15,8 @@ Generated with success!
 ```
 
 # Todo
-* New way of extracting docstrings, broken now
+* New way of extracting docstrings, broken now -> done
+* Integrate this new way to the rest -> done
+* New function/class/method sections
 * Validating docstring style (google/rest)
 * Better markdown API
