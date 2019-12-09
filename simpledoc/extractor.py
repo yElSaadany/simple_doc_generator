@@ -87,7 +87,7 @@ def extract_docstrings(module):
     module = __import__(module)
 
     tmp = {}
-    ret = {'classes': {}, 'functions': {}}
+    ret = {module.__name__: module.__doc__, 'classes': {}, 'functions': {}}
     for key, value in module.__dict__.items():
         if key[:2] != "__" and True in [dec in key for dec in declarations]:
             tmp[key] = value
