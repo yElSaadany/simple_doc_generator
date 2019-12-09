@@ -76,7 +76,7 @@ class MarkdownSection():
         for item in items:
             md += "* " + item + '\n'
 
-        self.content += md
+        self.content += md + '\n'
 
     def generate(self):
         return self.title + self.content
