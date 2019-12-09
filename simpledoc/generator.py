@@ -29,7 +29,7 @@ def function_section(signature, docstring):
     section = MarkdownSection(signature, False)
     section.add_line("**Function**")
     docstring = parse(docstring)
-    section.add_line(docstring.short_description[3:])
+    section.add_line(docstring.short_description)
     section.add_line(str(docstring.long_description))
     section.add_line("### Arguments")
     tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
@@ -49,7 +49,8 @@ def method_section(signature, docstring):
     section = MarkdownSection(signature, True)
     section.add_line("**Method**")
     docstring = parse(docstring)
-    section.add_line(docstring.short_description[3:])
+    if docstring.short_description is not None:
+        section.add_line(docstring.short_description)
     section.add_line(str(docstring.long_description))
     section.add_line("#### Arguments")
     tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
@@ -69,7 +70,7 @@ def class_section(signature, docstring):
     section = MarkdownSection(signature, False)
     section.add_line("**Class**")
     docstring = parse(docstring)
-    section.add_line(docstring.short_description[3:])
+    section.add_line(docstring.short_description)
     if docstring.long_description is not None:
         section.add_line(str(docstring.long_description))
     section.add_line("### Arguments")
@@ -121,5 +122,22 @@ def generate_markdown(docstrings, title):
     ret = Markdown(title)
     ret.sections = sections
 
+    return ret
+
+
+def generate_markdown2(docstrings):
+    title = list(docstrings.keys())[0]
+    sections = []
+    for name, docstring in docstrings['functions'].items():
+        sections.append(function_section(name, docstring))
+
+    for name, docstring in docstrings['classes'].items():
+        sections.append(class_section(name, docstring['self']))
+        for method, met_doc in docstring['methods'].items():
+            sections.append(method_section(method, met_doc))
+
+    ret = Markdown(title)
+    #ret.add_content(docstrings[title])
+    ret.sections = sections
 
     return ret
