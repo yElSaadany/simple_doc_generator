@@ -68,25 +68,38 @@ def is_one_line_doc(string):
         return True
 
 
+def get_declarations(file):
+    with open(file, 'r') as doc:
+        lines = doc.readlines()
+
+    ret = []
+    for line in lines:
+        line = line.strip()
+        if line[:3] == "def" or line[:5] == "class":
+            ret.append(line.split(' ')[1].split('(')[0])
+
+    return ret
+
+
 def extract_docstrings(module):
+    declarations = get_declarations("%s.py" % module)
+    print(declarations)
     module = __import__(module)
-    exclude = ["__name__", "__doc__", "__package__", "__loader__", "__spec__",
-               "__file__", "__cached__", "__builtins__", "__module__"]
 
     tmp = {}
     ret = {'classes': {}, 'functions': {}}
-
     for key, value in module.__dict__.items():
-        if key not in exclude and key[:2] != '__':
-            tmp[key] = value  # It's a function or a class
+        if key[:2] != "__" and True in [dec in key for dec in declarations]:
+            tmp[key] = value
 
     for key, value in tmp.items():
         if type(value) == type(type):  # It's a class
             ret['classes'].update({key: {'self': value.__doc__,
-                                         "methods": {}}})
+                                         'methods': {}}})
+
             for name, method in value.__dict__.items():
-                if name[:2] != '__':
-                    # We add the method in the methods dict of the class
+                if (name[:2] != "__"
+                        and True in [dec in name for dec in declarations]):
                     doc = method.__doc__
                     ret['classes'][key]['methods'].update({name: doc})
         else:  # It's a function
