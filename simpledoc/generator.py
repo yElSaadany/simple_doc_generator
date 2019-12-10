@@ -29,13 +29,16 @@ def function_section(signature, docstring):
     section = MarkdownSection(signature, False)
     section.add_line("**Function**")
     docstring = parse(docstring)
-    section.add_line(docstring.short_description)
-    section.add_line(str(docstring.long_description))
-    section.add_line("### Arguments")
-    tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
-                              arg.description)
-           for arg in docstring.params]
-    section.add_list(tmp)
+    if docstring.short_description is not None:
+        section.add_line(docstring.short_description)
+    if long_description is not None:
+        section.add_line(str(docstring.long_description))
+    if len(docstring.params) != 0:
+        section.add_line("### Arguments")
+        tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
+                                  arg.description)
+               for arg in docstring.params]
+        section.add_list(tmp)
 
     if docstring.returns:
         section.add_line("### Returns")
@@ -51,12 +54,14 @@ def method_section(signature, docstring):
     docstring = parse(docstring)
     if docstring.short_description is not None:
         section.add_line(docstring.short_description)
-    section.add_line(str(docstring.long_description))
-    section.add_line("#### Arguments")
-    tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
-                              arg.description)
-           for arg in docstring.params]
-    section.add_list(tmp)
+    if docstring.long_description is not None:
+        section.add_line(str(docstring.long_description))
+    if len(docstring.params) != 0:
+        section.add_line("#### Arguments")
+        tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
+                                  arg.description)
+               for arg in docstring.params]
+        section.add_list(tmp)
 
     if docstring.returns:
         section.add_line("#### Returns")
@@ -73,11 +78,12 @@ def class_section(signature, docstring):
     section.add_line(docstring.short_description)
     if docstring.long_description is not None:
         section.add_line(str(docstring.long_description))
-    section.add_line("### Arguments")
-    tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
-                              arg.description)
-           for arg in docstring.params]
-    section.add_list(tmp)
+    if len(docstring.params) != 0:
+        section.add_line("### Arguments")
+        tmp = ["%s (*%s*): %s" % (arg.arg_name, arg.type_name,
+                                  arg.description)
+               for arg in docstring.params]
+        section.add_list(tmp)
 
     if docstring.returns:
         section.add_line("### Returns")
@@ -134,6 +140,7 @@ def generate_markdown2(docstrings):
     for name, docstring in docstrings['classes'].items():
         sections.append(class_section(name, docstring['self']))
         for method, met_doc in docstring['methods'].items():
+            print(method)
             sections.append(method_section(method, met_doc))
 
     ret = Markdown(title)
