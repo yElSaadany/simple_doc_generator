@@ -18,6 +18,6 @@ Generated with success!
 * New way of extracting docstrings, broken now -> done
 * Integrate this new way to the rest -> done
 * New function/class/method sections -> okay
-* Making it works with whole src directory
+* Making it work with whole src directory, with option
 * Validating docstring style (google/rest)
 * Better markdown API
