@@ -42,7 +42,7 @@ def function_section(signature, docstring):
 
     if docstring.returns:
         section.add_line("### Returns")
-        section.add_line(docstring.returns.description[:-4])
+        section.add_line(docstring.returns.description)
 
     return section
 
@@ -65,7 +65,7 @@ def method_section(signature, docstring):
 
     if docstring.returns:
         section.add_line("#### Returns")
-        section.add_line(docstring.returns.description[:-4])
+        section.add_line(docstring.returns.description)
 
     return section
 
@@ -87,7 +87,7 @@ def class_section(signature, docstring):
 
     if docstring.returns:
         section.add_line("### Returns")
-        section.add_line(docstring.returns.description[:-4])
+        section.add_line(docstring.returns.description)
 
     return section
 
