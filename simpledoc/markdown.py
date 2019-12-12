@@ -11,6 +11,7 @@ class Markdown():
         title (str): Title of the markdown document.
     """
     def __init__(self, title):
+        self.name = title
         self.title = "# " + title + '\n'
         self.content = ""
         self.sections = []
