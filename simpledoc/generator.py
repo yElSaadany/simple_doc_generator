@@ -13,7 +13,7 @@ def create_doc_file(markdown, name):
     Returns:
         Nothing.
     """
-    markdown.generate(name)
+    markdown.generate(markdown.name+'.md')
 
 
 def function_section(signature, docstring):
@@ -31,7 +31,7 @@ def function_section(signature, docstring):
     docstring = parse(docstring)
     if docstring.short_description is not None:
         section.add_line(docstring.short_description)
-    if long_description is not None:
+    if docstring.long_description is not None:
         section.add_line(str(docstring.long_description))
     if len(docstring.params) != 0:
         section.add_line("### Arguments")
@@ -134,7 +134,11 @@ def generate_markdown(docstrings, title):
 def generate_markdown2(docstrings):
     title = list(docstrings.keys())[0]
     sections = []
+    print(docstrings)
     for name, docstring in docstrings['functions'].items():
+        print("maisie")
+        print(name)
+        print(docstring)
         sections.append(function_section(name, docstring))
 
     for name, docstring in docstrings['classes'].items():
