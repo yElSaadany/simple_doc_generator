@@ -8,8 +8,8 @@ import sys
 def main():
     args = init_args()
     check_files(args.i, args.o)
+    current_dir = os.getcwd()
     if len(args.i.split('/')) > 1:
-        current_dir = os.getcwd()
         os.chdir('/'.join(args.i.split('/')[:-1]))
     module = args.i.split('/')[-1][:-3]
     output_file = args.o
@@ -17,4 +17,8 @@ def main():
     docstrings = extract_docstrings(module)
     os.chdir(current_dir)
     res = gen.generate_markdown2(docstrings)
-    gen.create_doc_file(res, output_file)
+    print(res)
+    if not os.path.isdir('./build'):
+        os.mkdir('build')
+    os.chdir('build')
+    gen.create_doc_file(res, None)
