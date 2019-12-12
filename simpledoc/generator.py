@@ -3,7 +3,7 @@ from docstring_parser import parse
 from simpledoc.markdown import Markdown, MarkdownSection
 
 
-def create_doc_file(markdown, name):
+def create_doc_files(markdowns):
     """Creates a mardown file.
 
     Args:
@@ -13,7 +13,8 @@ def create_doc_file(markdown, name):
     Returns:
         Nothing.
     """
-    markdown.generate(markdown.name+'.md')
+    for markdown in markdowns:
+        markdown.generate(markdown.name+'.md')
 
 
 def function_section(signature, docstring):
