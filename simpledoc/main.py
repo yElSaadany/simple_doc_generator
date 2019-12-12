@@ -17,7 +17,6 @@ def main():
     docstrings = extract_docstrings(module)
     os.chdir(current_dir)
     res = gen.generate_markdown2(docstrings)
-    print(res)
     if not os.path.isdir('./build'):
         os.mkdir('build')
     os.chdir('build')
