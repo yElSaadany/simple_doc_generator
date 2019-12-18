@@ -7,7 +7,7 @@ import sys
 
 def main():
     args = init_args()
-    #check_files(args.i, args.o)
+    check_files(args.i)
     sys.path.append('')
     current_dir = os.getcwd()
     if len(args.i.split('/')) > 1:
@@ -29,7 +29,6 @@ def main():
             os.chdir(current_dir)
             markdowns.append(gen.generate_markdown2(docstrings))
 
-    output_file = args.o
     if not os.path.isdir('./build'):
         os.mkdir('build')
     os.chdir('build')
