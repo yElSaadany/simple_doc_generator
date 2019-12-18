@@ -1,3 +1,4 @@
+from simpledoc.utils.debug import debug
 import simpledoc.generator as gen
 from simpledoc.utils.arguments import init_args, check_files
 from simpledoc.extractor import extract_docstrings
@@ -8,6 +9,12 @@ import sys
 def main():
     args = init_args()
     check_files(args.i)
+    print(args.v)
+    if args.v:
+        os.environ["DEBUG"] = "debug"
+        debug("Verbose mode")
+    else:
+        args.v = False
     sys.path.append('')
     current_dir = os.getcwd()
     if len(args.i.split('/')) > 1:
