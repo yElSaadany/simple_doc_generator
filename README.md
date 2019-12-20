@@ -19,5 +19,5 @@ Generated with success!
 * Integrate this new way to the rest -> done
 * New function/class/method sections -> okay
 * Making it work with whole src directory, with option -> done
-* Validating docstring style (google/rest)
+* Validating docstring style (google/rest) -> okay
 * Better markdown API
