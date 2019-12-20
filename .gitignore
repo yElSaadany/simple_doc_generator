@@ -5,3 +5,4 @@ cleaner.py
 *.pyc
 *.log
 SimpleDocGenerator.egg-info/
+.idea/
