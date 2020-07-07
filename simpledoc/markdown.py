@@ -1,4 +1,4 @@
-class Markdown():
+class Markdown:
     """Represents a markdown file
 
     Attributes:
@@ -10,9 +10,10 @@ class Markdown():
     Args:
         title (str): Title of the markdown document.
     """
+
     def __init__(self, title):
         self.name = title
-        self.title = "# " + title + '\n'
+        self.title = "# " + title + "\n"
         self.content = ""
         self.sections = []
 
@@ -32,19 +33,20 @@ class Markdown():
     def generate(self, name):
         """Exports `title` and `content` to a markdown file."""
         self.process_sections()
-        with open(name, 'w') as doc:
+        with open(name, "w") as doc:
             doc.write(self.title)
             doc.write(self.content)
 
 
-class MarkdownSection():
+class MarkdownSection:
     """Represents a section in a markdown file
     """
+
     def __init__(self, title, subsection=False):
         if subsection:
-            self.title = "### " + title + '\n'
+            self.title = "### " + title + "\n"
         else:
-            self.title = "## " + title + '\n'
+            self.title = "## " + title + "\n"
         self.content = ""
 
     def add_content(self, text):
@@ -62,7 +64,7 @@ class MarkdownSection():
         Returns:
             Nothing, inplace operation.
         """
-        self.content += line + '\n\n'
+        self.content += line + "\n\n"
 
     def add_list(self, items):
         """Adds a markdown list to the section.
@@ -75,9 +77,9 @@ class MarkdownSection():
         """
         md = ""
         for item in items:
-            md += "* " + item + '\n'
+            md += "* " + item + "\n"
 
-        self.content += md + '\n'
+        self.content += md + "\n"
 
     def generate(self):
         return self.title + self.content

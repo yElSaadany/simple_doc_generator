@@ -21,7 +21,7 @@ def squared(x):
     Returns:
         x squared.
     """
-    return x**2
+    return x ** 2
 
 
 def hello(name):

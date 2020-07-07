@@ -6,3 +6,4 @@ cleaner.py
 *.log
 SimpleDocGenerator.egg-info/
 .idea/
+.vscode/

@@ -15,20 +15,20 @@ def main():
         debug("Verbose mode")
     else:
         args.v = False
-    sys.path.append('')
+    sys.path.append("")
     current_dir = os.getcwd()
-    if len(args.i.split('/')) > 1:
-        os.chdir('/'.join(args.i.split('/')[:-1]))
+    if len(args.i.split("/")) > 1:
+        os.chdir("/".join(args.i.split("/")[:-1]))
 
     markdowns = []
-    if args.i.split('/')[-1][-3:] == '.py':
-        module = args.i.split('/')[-1][:-3]
+    if args.i.split("/")[-1][-3:] == ".py":
+        module = args.i.split("/")[-1][:-3]
         docstrings = extract_docstrings(module)
         os.chdir(current_dir)
         markdowns.append(gen.generate_markdown2(docstrings))
     else:
         os.chdir(args.i)
-        modules = [module for module in os.listdir() if module[-3:] == '.py']
+        modules = [module for module in os.listdir() if module[-3:] == ".py"]
 
         for module in modules:
             module = module[:-3]
@@ -36,7 +36,7 @@ def main():
             os.chdir(current_dir)
             markdowns.append(gen.generate_markdown2(docstrings))
 
-    if not os.path.isdir('./build'):
-        os.mkdir('build')
-    os.chdir('build')
+    if not os.path.isdir("./build"):
+        os.mkdir("build")
+    os.chdir("build")
     gen.create_doc_files(markdowns)

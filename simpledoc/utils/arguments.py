@@ -1,6 +1,7 @@
 import os
 import argparse
 
+
 def check_files(input_file):
     """Checks if arguments are valid.
 
@@ -25,8 +26,6 @@ def init_args():
         Parsed arguments in objects named after them.
     """
     parse = argparse.ArgumentParser()
-    parse.add_argument("-i", metavar="path",
-                       required=True, help="path to input file")
-    parse.add_argument("-v", help="verbose mode, for debug",
-                       action='store_true')
+    parse.add_argument("-i", metavar="path", required=True, help="path to input file")
+    parse.add_argument("-v", help="verbose mode, for debug", action="store_true")
     return parse.parse_args()
