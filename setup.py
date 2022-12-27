@@ -15,7 +15,7 @@ setup(
             },
         install_requires=[
             'docstring-parser==0.3',
-            'setuptools==41.0.1',
+            'setuptools==65.5.1',
             ],
         extras_requires={
             'dev': [
